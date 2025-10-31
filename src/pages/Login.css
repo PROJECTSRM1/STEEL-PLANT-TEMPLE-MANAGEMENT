@@ -1,0 +1,98 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* background: linear-gradient(to bottom right, #fffaf0, #f9e7d4); */
+ font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+   background: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url("../assets/images/OIP-21.webp") center/cover no-repeat;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: #fff;
+
+}
+
+.login-card {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 350px;
+}
+
+.login-card h2 {
+  color: #6b2a00;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #8b4513;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #3b2f2f;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #d4b483;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #8b4513;
+  box-shadow: 0 0 5px rgba(139,69,19,0.3);
+}
+
+.login-btn {
+  background-color: #8b4513;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #c68b22;
+  transform: scale(1.03);
+}
+
+.error-text {
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.extra-links {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #8b4513;
+  cursor: pointer;
+}
+
+.extra-links p:hover {
+  text-decoration: underline;
+}

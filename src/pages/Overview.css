@@ -1,0 +1,290 @@
+/* Overview.css – same premium style as dashboard */
+
+.page-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  font-family: "Poppins", sans-serif;
+  color: #3b2f2f;
+}
+
+/* Hero section */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d1e1e;
+}
+
+.hero-sub {
+  font-size: 0.95rem;
+  color: #7a6960;
+  margin-top: 4px;
+}
+
+.quick-donate {
+  background: #c68b22;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.quick-donate:hover {
+  background: #b3761a;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  background: #00bfa6;
+  color: white;
+  padding: 18px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 191, 166, 0.2);
+}
+
+.stat h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.stat .value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* Status Tabs */
+.status-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.status-tab {
+  background: #fff8ec;
+  border: 1px solid rgba(198, 139, 34, 0.15);
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #8b4513;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-tab:hover {
+  background: #fff2dc;
+}
+
+.status-tab.active {
+  background: #c68b22;
+  color: #fff;
+}
+
+/* Mid Grid (Chart + Events) */
+.mid-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+.chart-card,
+.announce-card,
+.events-card {
+  background: #fffaf0;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Events Section */
+.upcoming-events-section h3 {
+  font-weight: 700;
+  color: #8b4513;
+  margin-bottom: 16px;
+}
+
+.events-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.event-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fffdf8;
+  border: 1px solid rgba(198, 139, 34, 0.1);
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.event-card:hover {
+  background: #fff3e0;
+  transform: translateY(-2px);
+}
+
+.event-date {
+  background: #c68b22;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 60px;
+}
+
+.event-date .day {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.event-date .month {
+  display: block;
+  font-size: 0.8rem;
+}
+
+.event-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.temple-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.event-details h4 {
+  font-size: 1rem;
+  margin: 0;
+  color: #4a2c00;
+}
+
+.event-details .muted {
+  font-size: 0.85rem;
+  color: #7a6960;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 16px;
+  width: 460px;
+  max-width: 90%;
+  padding: 24px;
+  position: relative;
+  animation: fadeIn 0.25s ease-in;
+}
+
+.modal-close {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #8b4513;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.modal-date {
+  background: #c68b22;
+  color: white;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.modal-day {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.modal-month {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.modal-year {
+  display: block;
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+.modal-body {
+  font-size: 0.95rem;
+  color: #4a2c00;
+}
+
+.btn-primary {
+  background: #c68b22;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+
+.btn-primary:hover {
+  background: #a96d10;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
