@@ -19,9 +19,9 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
-      - name: Build React (Vite) app
+      - name: Build React app
         run: npm run build
 
       - name: Upload build artifact
@@ -33,6 +33,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'STEEL-PLANT-TEMPLE-MANAGEMENT'  
+          app-name: 'STEEL-PLANT-TEMPLE-MANAGEMENT'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: ./build
+
