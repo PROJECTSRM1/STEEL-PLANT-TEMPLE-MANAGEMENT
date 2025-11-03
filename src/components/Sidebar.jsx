@@ -5,15 +5,15 @@ import { Home, Gift, Users, Calendar, BarChart2, Settings } from "lucide-react";
 import "./Sidebar.css";
 
 export default function Sidebar({ isOpen = false, onClose = () => {} }) {
-  // const location = useLocation();
+  
 
   const items = [
     { to: "/dashboard", label: "Overview", icon: <Home size={16} /> },
     { to: "/dashboard/seva-bookings", label: "Seva Bookings", icon: <Gift size={16} /> },
-    { to: "/donations/online", label: "Donations", icon: <Users size={16} /> },
+    { to: "/dashboard/donations", label: "Donations", icon: <Users size={16} /> },
     { to: "/dashboard/events", label: "Events", icon: <Calendar size={16} /> },
     { to: "/reports", label: "Reports", icon: <BarChart2 size={16} /> },
-    // <-- FIX: link must point to the nested dashboard path
+    
     { to: "/dashboard/settings", label: "Settings", icon: <Settings size={16} /> },
   ];
 
@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen = false, onClose = () => {} }) {
           <NavLink
             key={it.to}
             to={it.to}
-            end={it.to === "/dashboard"}         // exact match for Overview
+            end={it.to === "/dashboard"}       
             className={({ isActive }) => `nav-card ${isActive ? "active" : ""}`}
             onClick={() => { if (onClose) onClose(); }}
           >

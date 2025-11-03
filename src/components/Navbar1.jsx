@@ -11,10 +11,10 @@ export default function Navbar1({ onToggleSidebar }) {
 
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
-    navigate("/"); // navigate to login page
+    navigate("/"); 
   };
 
-  // close dropdown when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -49,7 +49,7 @@ export default function Navbar1({ onToggleSidebar }) {
 
         <div className="nav-right">
           <nav className="nav-links" role="navigation" aria-label="Main">
-            {/* Add nav links if needed */}
+            
           </nav>
 
           <div className="nav-actions" ref={dropdownRef}>
@@ -57,7 +57,7 @@ export default function Navbar1({ onToggleSidebar }) {
               <Bell size={16} />
             </button>
 
-            {/* Profile dropdown */}
+           
             <div className="profile-container">
               <button
                 className="profile-btn"

@@ -12,7 +12,7 @@ const Signup = () => {
   function handleSubmit(e) {
     e.preventDefault();
 
-    // ✅ Save user data in localStorage (mock backend)
+    
     const userData = { firstname, lastname, email, password };
     localStorage.setItem("templeUser", JSON.stringify(userData));
 

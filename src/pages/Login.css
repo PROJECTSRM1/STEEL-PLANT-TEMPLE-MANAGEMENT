@@ -71,6 +71,7 @@
   width: 100%;
   cursor: pointer;
   transition: 0.3s ease;
+  margin-bottom: 0px;
 }
 
 .login-btn:hover {
@@ -94,5 +95,18 @@
 }
 
 .extra-links p:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #ffcc00;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
   text-decoration: underline;
 }

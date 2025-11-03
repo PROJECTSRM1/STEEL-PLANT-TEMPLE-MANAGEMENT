@@ -2,10 +2,7 @@
 import React, { useState, useMemo } from "react";
 import "./SevaBookingsPage.css";
 
-/*
-  Sample data - replace with API calls when ready.
-  I've included common Ayyappa sevas (Pushpabhishekam, Ashtabhishekam, Archana, Neyyabhishekam, Annadanam, Goshala Seva).
-*/
+
 const initialSevas = [
   {
     id: "pushpa",
@@ -15,6 +12,8 @@ const initialSevas = [
     bookings: [
       { id: 1, name: "Manoj Kumar", email: "manoj@example.com", phone: "9876543210", address: "Kochi", bookingDate: "2025-11-05", bookingTime: "19:00", notes: "Family of 4" },
       { id: 2, name: "Soma Devi", email: "soma@example.com", phone: "9845123456", address: "Kollam", bookingDate: "2025-11-09", bookingTime: "19:00", notes: "" },
+      { id: 3, name: "keerthi", email: "keerthi@example.com", phone: "9848723456", address: "delhi", bookingDate: "2025-10-09", bookingTime: "19:00", notes: "" },
+
     ]
   },
   {

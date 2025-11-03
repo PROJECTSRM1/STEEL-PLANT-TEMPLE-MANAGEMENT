@@ -1,6 +1,6 @@
-// src/components/SettingsCard.jsx
+
 import React from "react";
-import "./SettingsCard.css"; // optional if you want separate small tweaks
+import "./SettingsCard.css"; 
 
 export default function SettingsCard({ title, description, children }) {
   return (

@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DonationChart from "../components/DonationChart";
 import Announcements from "../components/Announcements";
-import "./Overview.css"; // optional - reuse Dashboard.css if you prefer
+import "./Overview.css"; 
 
-/* small inline temple SVG used as icon (keeps no extra deps) */
 function TempleIcon({ className = "" }) {
   return (
     <svg
@@ -218,7 +217,7 @@ export default function Overview() {
         </div>
       </div>
 
-      {/* Event details modal */}
+     
       {selectedEvent && (
         <div className="modal-overlay" role="dialog" aria-modal="true" aria-label={`Event details for ${selectedEvent.title}`}>
           <div className="modal-card">

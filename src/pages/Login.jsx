@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"; // keep your existing styles
+import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  // form states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,10 +18,7 @@ const Login = () => {
       storedUser.email === email &&
       storedUser.password === password
     ) {
-      // ✅ store authentication flag
       localStorage.setItem("isAuthenticated", "true");
-
-      // ✅ navigate to dashboard
       navigate("/dashboard", { replace: true });
     } else {
       setError("Invalid credentials. Please try again.");
@@ -59,6 +54,14 @@ const Login = () => {
             />
           </div>
 
+          {/* 👉 Forgot Password moved here */}
+          <p
+            className="forgot-password"
+            onClick={() => navigate("/recover")}
+          >
+            Forgot Password?
+          </p>
+
           {error && <p className="error-text">{error}</p>}
 
           <button type="submit" className="login-btn">
@@ -67,8 +70,12 @@ const Login = () => {
         </form>
 
         <div className="extra-links">
-          <p onClick={() => navigate("/recover")}>Forgot Password?</p>
-          <p onClick={() => navigate("/signup")}>Create an Account</p>
+          <p>
+            Don’t have an account?{" "}
+            <span onClick={() => navigate("/signup")} className="signup-link">
+              Signup
+            </span>
+          </p>
         </div>
       </div>
     </div>

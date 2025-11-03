@@ -1,4 +1,4 @@
-// src/components/EventDetails.jsx
+
 import React from "react";
 import "./EventDetails.css";
 

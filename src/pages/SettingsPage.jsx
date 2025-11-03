@@ -1,10 +1,10 @@
-// src/pages/SettingsPage.jsx
+
 import React, { useEffect, useState } from "react";
 import SettingsCard from "../components/SettingsCard";
 import "./SettingsPage.css";
 
 export default function SettingsPage() {
-  // initial load from localStorage (simple persistence)
+  
   const initial = {
     name: localStorage.getItem("admin_name") || "Administrator",
     email: localStorage.getItem("admin_email") || "admin@example.com",
@@ -20,13 +20,13 @@ export default function SettingsPage() {
   const [language, setLanguage] = useState(initial.language);
   const [saving, setSaving] = useState(false);
 
-  // apply simple body class for darkMode preview
+  
   useEffect(() => {
     if (darkMode) document.body.classList.add("app-darkmode");
     else document.body.classList.remove("app-darkmode");
   }, [darkMode]);
 
-  // Save all settings (demo -> localStorage). Replace with API call in production.
+  
   const handleSaveAll = () => {
     setSaving(true);
     setTimeout(() => {
@@ -40,7 +40,7 @@ export default function SettingsPage() {
     }, 700);
   };
 
-  // Simulate password change (validate)
+  
   const handleChangePassword = () => {
     if (!passwords.current || !passwords.newPass) {
       alert("Please fill current and new password");
@@ -50,7 +50,7 @@ export default function SettingsPage() {
       alert("New password and confirm do not match");
       return;
     }
-    // Replace with API call to change password
+    
     setTimeout(() => {
       setPasswords({ current: "", newPass: "", confirm: "" });
       alert("Password changed successfully");

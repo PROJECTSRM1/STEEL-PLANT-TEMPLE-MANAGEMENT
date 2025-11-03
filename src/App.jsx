@@ -13,7 +13,7 @@ import Overview from "./pages/Overview";
 import SevaBookingsPage from "./pages/SevaBookingsPage";
 import EventsPage from "./pages/EventsPage";
 import SettingsPage from "./pages/SettingsPage"; // settings page you created
-
+import DonationsPage from "./pages/sdon";
 export default function AppWrapper() {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
@@ -37,7 +37,7 @@ export default function AppWrapper() {
           <Route path="seva-bookings" element={<SevaBookingsPage />} />
           <Route path="events" element={<EventsPage />} />
           <Route path="settings" element={<SettingsPage />} />
-
+ <Route path="donations" element={<DonationsPage />} />
           {/* you can add /dashboard/reports etc here as nested routes */}
         </Route>
 

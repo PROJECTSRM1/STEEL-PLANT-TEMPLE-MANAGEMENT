@@ -63,14 +63,14 @@ export default function EventsPage() {
 
   return (
     <div className="events-page-root">
-      {/* Header */}
+  
       <div className="events-header">
         <h1>Temple Events Management</h1>
         <p className="muted">View, manage and book temple services</p>
       </div>
 
       <div className="events-grid">
-        {/* Left Panel — List of Events */}
+        
         <div className="events-left">
           <div className="search-box">
             <input
@@ -114,7 +114,7 @@ export default function EventsPage() {
           </div>
         </div>
 
-        {/* Right Panel — Event Details */}
+       
         <div className="events-right">
           {selectedEvent ? (
             <>
