@@ -14,6 +14,8 @@ import SevaBookingsPage from "./pages/SevaBookingsPage";
 import EventsPage from "./pages/EventsPage";
 import SettingsPage from "./pages/SettingsPage"; // settings page you created
 import DonationsPage from "./pages/sdon";
+import VolunteerAssignPage from "./pages/VolunteerAssignPage";
+import ReportsPage from "./pages/ReportsPage";
 export default function AppWrapper() {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
@@ -38,6 +40,8 @@ export default function AppWrapper() {
           <Route path="events" element={<EventsPage />} />
           <Route path="settings" element={<SettingsPage />} />
  <Route path="donations" element={<DonationsPage />} />
+ <Route path="reports" element={<ReportsPage />} />
+     <Route path="events/:id/assign" element={<VolunteerAssignPage />} />
           {/* you can add /dashboard/reports etc here as nested routes */}
         </Route>
 

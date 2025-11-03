@@ -12,7 +12,7 @@ export default function Sidebar({ isOpen = false, onClose = () => {} }) {
     { to: "/dashboard/seva-bookings", label: "Seva Bookings", icon: <Gift size={16} /> },
     { to: "/dashboard/donations", label: "Donations", icon: <Users size={16} /> },
     { to: "/dashboard/events", label: "Events", icon: <Calendar size={16} /> },
-    { to: "/reports", label: "Reports", icon: <BarChart2 size={16} /> },
+    { to: "/dashboard/reports", label: "Reports", icon: <BarChart2 size={16} /> },
     
     { to: "/dashboard/settings", label: "Settings", icon: <Settings size={16} /> },
   ];

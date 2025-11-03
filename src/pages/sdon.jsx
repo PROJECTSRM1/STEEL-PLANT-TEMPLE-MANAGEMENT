@@ -1,5 +1,6 @@
 // src/pages/DonationsPage.jsx
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "./sdon.css";
 
 const sampleDonations = [
@@ -11,6 +12,7 @@ const sampleDonations = [
     date: "2025-11-01",
     method: "GPay",
     amount: 500,
+    status: "completed", // completed / awaiting / ongoing
   },
   {
     id: 2,
@@ -21,6 +23,7 @@ const sampleDonations = [
     method: "Hand Cash",
     amount: 200,
     seatsAvailable: true,
+    status: "awaiting",
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ const sampleDonations = [
     date: "2025-09-25",
     method: "UPI ID",
     amount: 1000,
+    status: "completed",
   },
   {
     id: 4,
@@ -40,6 +44,7 @@ const sampleDonations = [
     method: "PhonePe (Quick Donate)",
     amount: 300,
     seatsAvailable: false,
+    status: "completed",
   },
   {
     id: 5,
@@ -49,6 +54,7 @@ const sampleDonations = [
     date: "2025-10-05",
     method: "PhonePe",
     amount: 750,
+    status: "ongoing",
   },
 ];
 
@@ -57,9 +63,19 @@ function Badge({ children }) {
 }
 
 const DonationsPage = () => {
+  const location = useLocation();
+  const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const statusQuery = params.get("status"); // awaiting | ongoing | completed | null
+
   const [q, setQ] = useState("");
   const [filterType, setFilterType] = useState("All"); // All | Online | Offline
   const [methodFilter, setMethodFilter] = useState("All"); // All or specific method (GPay, UPI ID, PhonePe, Hand Cash)
+
+  // Put active sidebar flag so Sidebar.jsx can highlight Donations when mounted
+  useEffect(() => {
+    sessionStorage.setItem("activeSidebar", "donations");
+    // keep it while on this page. (Sidebar can remove when route changes if you prefer.)
+  }, []);
 
   // compute list of unique methods for method filter dropdown
   const methods = useMemo(() => {
@@ -70,8 +86,16 @@ const DonationsPage = () => {
   // filtered & searched results
   const filtered = useMemo(() => {
     return sampleDonations.filter((d) => {
+      // status filter from query param
+      if (statusQuery && statusQuery !== "" && d.status !== statusQuery) return false;
+
+      // payment type filter
       if (filterType !== "All" && d.paymentType !== filterType) return false;
+
+      // method filter
       if (methodFilter !== "All" && d.method !== methodFilter) return false;
+
+      // search
       if (!q) return true;
       const s = q.toLowerCase();
       // allow search by user name, event, method, date
@@ -82,12 +106,24 @@ const DonationsPage = () => {
         d.date.toLowerCase().includes(s)
       );
     });
-  }, [q, filterType, methodFilter]);
+  }, [q, filterType, methodFilter, statusQuery]);
+
+  // helper: friendly label if statusQuery present
+  const statusLabel = useMemo(() => {
+    if (!statusQuery) return "All donations";
+    if (statusQuery === "awaiting") return "Awaiting Blessings";
+    if (statusQuery === "ongoing") return "Ongoing Rituals";
+    if (statusQuery === "completed") return "Blessings Offered";
+    return "Filtered donations";
+  }, [statusQuery]);
 
   return (
     <div className="donations-page">
       <div className="donations-header">
-        <h2>🪔 Donations</h2>
+        <div>
+          <h2>🪔 Donations</h2>
+          <div className="muted small">{statusLabel}</div>
+        </div>
 
         <div className="donations-controls">
           <input
@@ -137,6 +173,7 @@ const DonationsPage = () => {
       <div className="donations-stats">
         <div>Total donations: <strong>{sampleDonations.length}</strong></div>
         <div>Showing: <strong>{filtered.length}</strong></div>
+        {statusQuery && <div>Status filter: <strong>{statusQuery}</strong></div>}
       </div>
 
       <div className="table-wrapper">
@@ -162,11 +199,7 @@ const DonationsPage = () => {
                 <tr key={d.id}>
                   <td>{d.user}</td>
                   <td>
-                    {d.paymentType === "Online" ? (
-                      <Badge>Online</Badge>
-                    ) : (
-                      <Badge>Offline</Badge>
-                    )}
+                    {d.paymentType === "Online" ? <Badge>Online</Badge> : <Badge>Offline</Badge>}
                   </td>
                   <td>{d.event}</td>
                   <td>{d.date}</td>
@@ -185,9 +218,14 @@ const DonationsPage = () => {
                             {d.seatsAvailable ? "Seats available" : "No seats"}
                           </span>
                         )}
+                        {/* show status chip */}
+                        <span className={`status-chip ${d.status}`}>{d.status}</span>
                       </>
                     ) : (
-                      <span className="note">Paid online via {d.method}</span>
+                      <>
+                        <span className="note">Paid online via {d.method}</span>
+                        <span className={`status-chip ${d.status}`}>{d.status}</span>
+                      </>
                     )}
                   </td>
                 </tr>
