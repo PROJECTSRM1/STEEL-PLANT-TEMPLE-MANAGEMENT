@@ -1,21 +1,53 @@
+// src/pages/ReportsPage.jsx
 import React, { useMemo, useState } from "react";
 import "./ReportsPage.css";
 
-/* sample data (replace with API calls in future) */
+/* sample data (replace with API calls in future)
+   NOTE: dates are in DD-MM-YYYY format in sampleReports (as you provided)
+*/
 const sampleReports = [
-  { id: 1, category: "Donations", event: "Diwali Pooja", amount: 12000, volunteers: 3, date: "2025-11-01", channel: "Online", donor: "Ravi Sharma" },
-  { id: 2, category: "Events", event: "Navratri Celebration", amount: 8000, volunteers: 5, date: "2025-10-15", channel: "Online", donor: "Anjali Patel" },
-  { id: 3, category: "Maintenance", event: "Temple Cleanliness Drive", amount: 2500, volunteers: 2, date: "2025-09-30", channel: "Offline", donor: "Local Trust" },
-  { id: 4, category: "Donations", event: "Quick Donate", amount: 5000, volunteers: 1, date: "2025-10-10", channel: "Offline", donor: "Sita Verma" },
-  { id: 5, category: "Events", event: "Mandala Pooja", amount: 10000, volunteers: 4, date: "2025-11-03", channel: "Online", donor: "Kiran Rao" },
-  { id: 6, category: "Donations", event: "Temple Maintenance", amount: 750, volunteers: 0, date: "2025-10-05", channel: "Online", donor: "Sita Verma" }
+  { id: 1, category: "Donations", event: "Diwali Pooja", amount: 12000, volunteers: 3, date: "01-11-2025", channel: "Online", donor: "Ravi Sharma" },
+  { id: 2, category: "Events", event: "Navratri Celebration", amount: 8000, volunteers: 5, date: "15-10-2025", channel: "Online", donor: "Anjali Patel" },
+  { id: 3, category: "Renovation", event: "Temple Cleanliness ", amount: 2500, volunteers: 2, date: "02-09-2025", channel: "Offline", donor: "Local Trust" },
+  { id: 4, category: "Donations", event: "Quick Donate", amount: 5000, volunteers: 1, date: "10-10-2025", channel: "Offline", donor: "Sita Verma" },
+  { id: 5, category: "Events", event: "Mandala Pooja", amount: 10000, volunteers: 4, date: "03-11-2025", channel: "Online", donor: "Kiran Rao" },
+  { id: 6, category: "Donations", event: "Temple Maintenance", amount: 750, volunteers: 0, date: "05-10-2025", channel: "Online", donor: "Sita Verma" }
 ];
 
-function formatCurrency(n) {
-  return `₹${n.toLocaleString()}`;
+/* ------------------- Helpers (Indian-friendly formats) ------------------ */
+
+// Parse DD-MM-YYYY (safe) -> Date object
+function parseDMY(dmy) {
+  if (!dmy) return null;
+  const parts = dmy.split(/[-/]/).map(p => parseInt(p, 10));
+  if (parts.length !== 3) return new Date(dmy); // fallback
+  const [dd, mm, yyyy] = parts;
+  return new Date(yyyy, mm - 1, dd);
 }
 
-/* sparkline path */
+// Format Date -> DD-MM-YYYY
+function formatDMY(date) {
+  if (!date) return "";
+  const d = date instanceof Date ? date : new Date(date);
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+// Format Date -> "MonthName" (e.g., "November") for filter dropdown
+function monthNameFromDate(date) {
+  return date.toLocaleString("default", { month: "long", year: "numeric" });
+}
+
+// Format currency in Indian grouping with rupee sign
+function formatCurrencyIndian(n) {
+  if (typeof n !== "number") n = Number(n) || 0;
+  // using toLocaleString with 'en-IN' for Indian grouping
+  return `₹${n.toLocaleString("en-IN")}`;
+}
+
+/* ---------------- helper visual functions ---------------- */
 function sparklinePath(values, width = 120, height = 40) {
   if (!values || values.length === 0) return "";
   const max = Math.max(...values);
@@ -30,8 +62,6 @@ function sparklinePath(values, width = 120, height = 40) {
   for (let i = 1; i < len; i++) d += ` L ${px(i)} ${py(values[i])}`;
   return d;
 }
-
-/* donut arc path */
 function donutArcs(percent, cx = 50, cy = 50, r = 36) {
   const angle = percent * Math.PI * 2;
   const large = angle > Math.PI ? 1 : 0;
@@ -41,29 +71,23 @@ function donutArcs(percent, cx = 50, cy = 50, r = 36) {
   return d;
 }
 
-/* ---------------- HeatmapCalendar component ----------------
-   Props:
-     - year, month (1-based month), countsMap (object: 'YYYY-MM-DD' -> {count, items})
-*/
+/* ---------------- HeatmapCalendar component (unchanged visually) ---------------- */
 function HeatmapCalendar({ year, month, countsMap }) {
-  // month: 1-12
   const first = new Date(year, month - 1, 1);
   const startDay = first.getDay(); // 0=Sun..6=Sat
   const daysInMonth = new Date(year, month, 0).getDate();
 
-  // build array of day cells with date string
   const cells = [];
   for (let i = 0; i < startDay; i++) cells.push(null);
   for (let d = 1; d <= daysInMonth; d++) {
     const yyyy = year;
     const mm = String(month).padStart(2, "0");
     const dd = String(d).padStart(2, "0");
-    const key = `${yyyy}-${mm}-${dd}`;
+    const key = `${yyyy}-${mm}-${dd}`; // YYYY-MM-DD
     const info = countsMap[key] || { count: 0, items: [] };
     cells.push({ day: d, key, ...info });
   }
 
-  // max for intensity scaling
   const max = Math.max(...cells.map(c => (c ? c.count : 0)), 1);
 
   return (
@@ -79,12 +103,10 @@ function HeatmapCalendar({ year, month, countsMap }) {
       </div>
 
       <div className="heatmap-grid" role="grid" aria-label={`Volunteer assignments for ${first.toLocaleString("default", { month: "long", year: "numeric" })}`}>
-        {/* week day headers */}
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => (
           <div key={d} className="heatmap-weekday">{d}</div>
         ))}
 
-        {/* cells */}
         {cells.map((c, idx) => {
           if (!c) return <div key={idx} className="heatmap-cell empty" />;
           const intensity = Math.round((c.count / max) * 3); // 0..3
@@ -110,52 +132,63 @@ function HeatmapCalendar({ year, month, countsMap }) {
   );
 }
 
-/* ---------------- ReportsPage main ---------------- */
+/* ---------------- ReportsPage main (updates for Indian formatting) ---------------- */
 export default function ReportsPage() {
   const [selectedMonth, setSelectedMonth] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // months present in sample data
+  // build months available (use parsed date)
   const months = useMemo(() => {
-    const set = new Set(sampleReports.map(s => new Date(s.date).toLocaleString("default", { month: "long" })));
+    const set = new Set(
+      sampleReports.map(s => monthNameFromDate(parseDMY(s.date)))
+    );
     return ["All", ...Array.from(set)];
   }, []);
 
-  // filtered records
+  // filtered by month name (e.g., "October 2025") and category
   const filtered = useMemo(() => {
     return sampleReports.filter(r => {
-      const month = new Date(r.date).toLocaleString("default", { month: "long" });
-      const okMonth = selectedMonth === "All" || month === selectedMonth;
+      const dt = parseDMY(r.date);
+      const monthLabel = monthNameFromDate(dt);
+      const okMonth = selectedMonth === "All" || monthLabel === selectedMonth;
       const okCat = selectedCategory === "All" || r.category === selectedCategory;
       return okMonth && okCat;
     });
   }, [selectedMonth, selectedCategory]);
 
-  // totals and aggregates
+  // totals and aggregates (use parsed dates)
   const totals = useMemo(() => {
     const totalDonations = filtered.filter(f => f.category === "Donations").reduce((s, r) => s + r.amount, 0);
     const totalVolunteers = filtered.reduce((s, r) => s + r.volunteers, 0);
-    const totalEvents = new Set(filtered.filter(f => f.category === "Events" || f.category === "Donations" || f.category === "Maintenance").map(f => f.event)).size;
+    const totalEvents = new Set(filtered.filter(f => ["Events","Donations","Maintenance","Renovation"].includes(f.category)).map(f => f.event)).size;
     const online = filtered.filter(f => f.channel === "Online").reduce((s, r) => s + r.amount, 0);
     const offline = filtered.filter(f => f.channel === "Offline").reduce((s, r) => s + r.amount, 0);
+
+    // grouped volunteers by date (use normalized key YYYY-MM-DD -> show sortedDates in DD-MM-YYYY for display)
     const grouped = {};
-    filtered.forEach(r => { grouped[r.date] = (grouped[r.date] || 0) + r.volunteers; });
-    const sortedDates = Object.keys(grouped).sort();
+    filtered.forEach(r => {
+      const dt = parseDMY(r.date);
+      const key = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`; // YYYY-MM-DD
+      grouped[key] = (grouped[key] || 0) + r.volunteers;
+    });
+    const sortedDates = Object.keys(grouped).sort(); // YYYY-MM-DD sorted
     const trend = sortedDates.map(d => grouped[d]);
+    // top donors: use all sampleReports to get overall top donors
     const donors = {};
     sampleReports.forEach(r => { donors[r.donor] = (donors[r.donor] || 0) + r.amount; });
     const topDonors = Object.entries(donors).sort((a,b)=>b[1]-a[1]).slice(0,4);
     return { totalDonations, totalVolunteers, totalEvents, online, offline, trend, topDonors, sortedDates, grouped };
   }, [filtered]);
 
+  // donation split percent for donut (online portion)
   const donationSplit = totals.online + totals.offline === 0 ? 0.5 : totals.online / (totals.online + totals.offline);
 
-  // Decide which month/year to show in heatmap
+  // pick month/year for heatmap — if selectedMonth provided, find a matching report to get the year else current
   const heatmapMonthInfo = useMemo(() => {
     if (selectedMonth !== "All") {
-      // pick year from first filtered item matching that month or current year as fallback
-      const match = sampleReports.find(r => new Date(r.date).toLocaleString("default", { month: "long" }) === selectedMonth);
-      const dt = match ? new Date(match.date) : new Date();
+      // find any report with the selected month label to get the year
+      const match = sampleReports.find(r => monthNameFromDate(parseDMY(r.date)) === selectedMonth);
+      const dt = match ? parseDMY(match.date) : new Date();
       return { year: dt.getFullYear(), month: dt.getMonth() + 1 };
     } else {
       const now = new Date();
@@ -163,11 +196,12 @@ export default function ReportsPage() {
     }
   }, [selectedMonth]);
 
-  // Build countsMap for heatmap: 'YYYY-MM-DD' -> {count, items[]}
+  // countsMap for heatmap: key = YYYY-MM-DD -> {count, items[]}
   const countsMap = useMemo(() => {
     const map = {};
     filtered.forEach(r => {
-      const key = r.date;
+      const dt = parseDMY(r.date);
+      const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`; // YYYY-MM-DD
       if (!map[key]) map[key] = { count: 0, items: [] };
       map[key].count += r.volunteers;
       map[key].items.push({ event: r.event, volunteers: r.volunteers });
@@ -201,8 +235,8 @@ export default function ReportsPage() {
       <div className="kpi-row">
         <div className="kpi-card">
           <div className="kpi-title">Total Donations</div>
-          <div className="kpi-value">{formatCurrency(totals.totalDonations)}</div>
-          <div className="kpi-sub">Online {formatCurrency(totals.online)} • Offline {formatCurrency(totals.offline)}</div>
+          <div className="kpi-value">{formatCurrencyIndian(totals.totalDonations)}</div>
+          <div className="kpi-sub">Online {formatCurrencyIndian(totals.online)} • Offline {formatCurrencyIndian(totals.offline)}</div>
         </div>
 
         <div className="kpi-card">
@@ -222,7 +256,10 @@ export default function ReportsPage() {
           <svg viewBox="0 0 120 40" className="sparkline" aria-hidden>
             <path d={sparklinePath(totals.trend, 120, 40)} fill="none" stroke="#c68b22" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <div className="kpi-sub small">Dates: {totals.sortedDates.slice(0,5).join(", ")}</div>
+          <div className="kpi-sub small">
+            Dates: {totals.sortedDates.slice(0,5).map(d => formatDMY(parseDMY(d.split("-").reverse().join("-")))).join(", ")}
+            {/* Note: totals.sortedDates are keys in YYYY-MM-DD format; format to DD-MM-YYYY for display */}
+          </div>
         </div>
       </div>
 
@@ -237,8 +274,8 @@ export default function ReportsPage() {
             <text x="50" y="50" textAnchor="middle" alignmentBaseline="central" fontSize="10" fill="#333">{Math.round(donationSplit*100)}%</text>
           </svg>
           <div className="donut-legend">
-            <div><span className="legend-dot online" /> Online {formatCurrency(totals.online)}</div>
-            <div><span className="legend-dot offline" /> Offline {formatCurrency(totals.offline)}</div>
+            <div><span className="legend-dot online" /> Online {formatCurrencyIndian(totals.online)}</div>
+            <div><span className="legend-dot offline" /> Offline {formatCurrencyIndian(totals.offline)}</div>
           </div>
         </div>
 
@@ -250,7 +287,7 @@ export default function ReportsPage() {
                 <div className="ti-date">{item.date}</div>
                 <div className="ti-body">
                   <div className="ti-title">{item.event}</div>
-                  <div className="ti-meta">{item.category} • {item.volunteers} volunteers • {formatCurrency(item.amount)}</div>
+                  <div className="ti-meta">{item.category} • {item.volunteers} volunteers • {formatCurrencyIndian(item.amount)}</div>
                 </div>
               </div>
             ))}
@@ -266,7 +303,7 @@ export default function ReportsPage() {
                 <div className="donor-rank">{idx+1}</div>
                 <div className="donor-info">
                   <div className="donor-name">{name}</div>
-                  <div className="donor-amt">{formatCurrency(amt)}</div>
+                  <div className="donor-amt">{formatCurrencyIndian(amt)}</div>
                 </div>
               </div>
             ))}
@@ -274,13 +311,10 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* New: Heatmap calendar */}
+      {/* Heatmap calendar */}
       <div className="heatmap-section">
         <HeatmapCalendar year={heatmapMonthInfo.year} month={heatmapMonthInfo.month} countsMap={countsMap} />
       </div>
-
-      {/* Events card grid (non-tabular) */}
-      
 
       {/* Volunteer availability bar */}
       <div className="availability-row">

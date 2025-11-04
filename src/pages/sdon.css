@@ -1,7 +1,7 @@
 /* DonationsPage.css */
 .donations-page {
   padding: 20px;
-  background: linear-gradient(180deg,#fffaf0,#fff5e1);
+  background: linear-gradient(180deg,#00bfa6,#00bfa6);
   min-height: 100vh;
   color: #222;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -31,7 +31,7 @@
 .donations-search {
   padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid #e6d8c2;
+  border: 1px solid #fffaf0;
   min-width: 260px;
   background: white;
 }
@@ -39,7 +39,7 @@
 .filter-group .pill {
   padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid #e6d8c2;
+  border: 1px solid #00bfa6;
   background: white;
   cursor: pointer;
   margin-left: 6px;
@@ -47,7 +47,7 @@
 }
 
 .filter-group .pill.active {
-  background: var(--accent, #e09005);
+  background: #00bfa6;
   color: #fff;
   border-color: transparent;
 }
@@ -83,7 +83,7 @@
 .donations-table td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #f5efe0;
+  border-bottom: 1px solid #00bfa6;
   vertical-align: middle;
   font-size: 14px;
 }

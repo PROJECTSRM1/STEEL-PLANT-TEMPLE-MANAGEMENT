@@ -9,17 +9,17 @@ const sampleDonations = [
     user: "Ravi Sharma",
     paymentType: "Online",
     event: "Diwali Pooja",
-    date: "2025-11-01",
+    date: "01-11-2025",
     method: "GPay",
     amount: 500,
-    status: "completed", // completed / awaiting / ongoing
+    status: "completed",
   },
   {
     id: 2,
     user: "Anjali Patel",
     paymentType: "Offline",
     event: "Quick Donate",
-    date: "2025-10-30",
+    date: "30-10-2025",
     method: "Hand Cash",
     amount: 200,
     seatsAvailable: true,
@@ -30,7 +30,7 @@ const sampleDonations = [
     user: "Kiran Rao",
     paymentType: "Online",
     event: "Navratri Celebration",
-    date: "2025-09-25",
+    date: "25-09-2025",
     method: "UPI ID",
     amount: 1000,
     status: "completed",
@@ -40,7 +40,7 @@ const sampleDonations = [
     user: "Ramesh Iyer",
     paymentType: "Offline",
     event: "Quick Donate",
-    date: "2025-10-10",
+    date: "10-10-2025",
     method: "PhonePe (Quick Donate)",
     amount: 300,
     seatsAvailable: false,
@@ -51,7 +51,7 @@ const sampleDonations = [
     user: "Sita Verma",
     paymentType: "Online",
     event: "Temple Maintenance",
-    date: "2025-10-05",
+    date: "05-10-2025",
     method: "PhonePe",
     amount: 750,
     status: "ongoing",
@@ -65,40 +65,28 @@ function Badge({ children }) {
 const DonationsPage = () => {
   const location = useLocation();
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const statusQuery = params.get("status"); // awaiting | ongoing | completed | null
+  const statusQuery = params.get("status");
 
   const [q, setQ] = useState("");
-  const [filterType, setFilterType] = useState("All"); // All | Online | Offline
-  const [methodFilter, setMethodFilter] = useState("All"); // All or specific method (GPay, UPI ID, PhonePe, Hand Cash)
+  const [filterType, setFilterType] = useState("All");
+  const [methodFilter, setMethodFilter] = useState("All");
 
-  // Put active sidebar flag so Sidebar.jsx can highlight Donations when mounted
   useEffect(() => {
     sessionStorage.setItem("activeSidebar", "donations");
-    // keep it while on this page. (Sidebar can remove when route changes if you prefer.)
   }, []);
 
-  // compute list of unique methods for method filter dropdown
   const methods = useMemo(() => {
     const set = new Set(sampleDonations.map((d) => d.method));
     return ["All", ...Array.from(set)];
   }, []);
 
-  // filtered & searched results
   const filtered = useMemo(() => {
     return sampleDonations.filter((d) => {
-      // status filter from query param
       if (statusQuery && statusQuery !== "" && d.status !== statusQuery) return false;
-
-      // payment type filter
       if (filterType !== "All" && d.paymentType !== filterType) return false;
-
-      // method filter
       if (methodFilter !== "All" && d.method !== methodFilter) return false;
-
-      // search
       if (!q) return true;
       const s = q.toLowerCase();
-      // allow search by user name, event, method, date
       return (
         d.user.toLowerCase().includes(s) ||
         d.event.toLowerCase().includes(s) ||
@@ -108,7 +96,6 @@ const DonationsPage = () => {
     });
   }, [q, filterType, methodFilter, statusQuery]);
 
-  // helper: friendly label if statusQuery present
   const statusLabel = useMemo(() => {
     if (!statusQuery) return "All donations";
     if (statusQuery === "awaiting") return "Awaiting Blessings";
@@ -180,19 +167,18 @@ const DonationsPage = () => {
         <table className="donations-table">
           <thead>
             <tr>
-              <th>User</th>
-              <th>Type</th>
+              <th>Donor</th>
+              <th>Donation Type</th>
               <th>Event</th>
               <th>Date</th>
-              <th>Method</th>
+              <th>Payment Method</th>
               <th>Amount</th>
-              <th>Notes</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan="7" className="empty">No donations match your filters.</td>
+                <td colSpan="6" className="empty">No donations match your filters.</td>
               </tr>
             ) : (
               filtered.map((d) => (
@@ -205,29 +191,6 @@ const DonationsPage = () => {
                   <td>{d.date}</td>
                   <td>{d.method}</td>
                   <td>₹{d.amount}</td>
-                  <td>
-                    {d.paymentType === "Offline" ? (
-                      <>
-                        {d.method.toLowerCase().includes("hand") ? (
-                          <span className="note">Hand cash received</span>
-                        ) : (
-                          <span className="note">{d.method}</span>
-                        )}
-                        {typeof d.seatsAvailable !== "undefined" && (
-                          <span className={`seat ${d.seatsAvailable ? "available" : "na"}`}>
-                            {d.seatsAvailable ? "Seats available" : "No seats"}
-                          </span>
-                        )}
-                        {/* show status chip */}
-                        <span className={`status-chip ${d.status}`}>{d.status}</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="note">Paid online via {d.method}</span>
-                        <span className={`status-chip ${d.status}`}>{d.status}</span>
-                      </>
-                    )}
-                  </td>
                 </tr>
               ))
             )}
