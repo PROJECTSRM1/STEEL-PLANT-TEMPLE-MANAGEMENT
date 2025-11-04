@@ -1,63 +1,73 @@
-/* src/styles/auth.css */
+/* src/styles/auth.css (or src/pages/Login.css) */
 
-/* Full-page background */
-.auth-page {
+/* Full-page background for auth pages */
+.auth-page,
+.login-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 100vh;
-  background: linear-gradient(
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.6)
-    ),
-    url("../assets/images/OIP-21.webp") center/cover no-repeat;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: #fff;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* image served from public/images/OIP-21.webp */
+
 }
 
 /* Auth box (login/signup card) */
-.auth-box {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 40px 50px;
-  width: 380px;
+.auth-box,
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem 3rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  transition: all 0.3s ease;
+  width: 350px;
+  transition: all 0.2s ease;
 }
 
 /* Heading */
-.auth-box h4 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffe6a7;
-  margin-bottom: 8px;
+.auth-box h4,
+.login-card h2 {
+  color: #6b2a00;
+  margin-bottom: 0.5rem;
 }
 
 /* Subtitle text */
+.subtitle,
 .auth-box p {
-  color: #ddd;
-  margin-bottom: 20px;
+  color: #8b4513;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
 }
 
 /* Input fields */
+.input-group,
 .auth-box input {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
+  text-align: left;
 }
 
-/* Buttons */
-.auth-box button {
+.auth-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #d4b483;
+  outline: none;
+  font-size: 15px;
+  background: #fff;
+  color: #333;
+  transition: 0.15s;
+}
+
+.auth-box input:focus {
+  border-color: #8b4513;
+  box-shadow: 0 0 6px rgba(139, 69, 19, 0.18);
+}
+
+/* Button styling */
+.auth-box button,
+.login-btn {
   background: linear-gradient(135deg, #a45b00, #ffb700);
   color: white;
   border: none;
@@ -68,24 +78,35 @@
   font-weight: 600;
   font-size: 16px;
   margin-top: 10px;
-  transition: 0.3s ease;
+  transition: 0.25s ease;
 }
 
-.auth-box button:hover {
+.auth-box button:hover,
+.login-btn:hover {
   background: linear-gradient(135deg, #ffb700, #a45b00);
   transform: translateY(-2px);
 }
 
-/* Extra links */
+/* Error message */
+.error-text {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Extra links (signup, recover) */
 .extra-links {
-  margin-top: 20px;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #8b4513;
 }
 
 .extra-links a,
 .extra-links p {
   color: #ffcc70;
   text-decoration: none;
-  font-size: 0.95rem;
   cursor: pointer;
 }
 
@@ -95,10 +116,25 @@
   color: #ffd700;
 }
 
+/* Forgot password */
+.forgot-password {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #ffcc00;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
-  .auth-box {
+  .auth-box,
+  .login-card {
     width: 90%;
-    padding: 30px 25px;
+    padding: 24px;
   }
 }

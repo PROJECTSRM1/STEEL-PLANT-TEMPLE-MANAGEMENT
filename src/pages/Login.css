@@ -1,29 +1,30 @@
+/* src/pages/Login.css */
+
+/* Full-screen container */
 .login-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  /* background: linear-gradient(to bottom right, #fffaf0, #f9e7d4); */
- font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-   background: linear-gradient(
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.6)
-    ),
-    url("../assets/images/OIP-21.webp") center/cover no-repeat;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: #fff;
 
+  /* ✅ Correct background path (public/images/OIP-21.webp) */
+
 }
 
+/* Login card */
 .login-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
   padding: 2rem 3rem;
   border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 350px;
+  transition: all 0.3s ease;
 }
 
+/* Headings */
 .login-card h2 {
   color: #6b2a00;
   margin-bottom: 0.5rem;
@@ -35,6 +36,7 @@
   font-weight: 500;
 }
 
+/* Input group styling */
 .input-group {
   text-align: left;
   margin-bottom: 1rem;
@@ -58,11 +60,12 @@
 
 .input-group input:focus {
   border-color: #8b4513;
-  box-shadow: 0 0 5px rgba(139,69,19,0.3);
+  box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
 }
 
+/* Login button */
 .login-btn {
-  background-color: #8b4513;
+  background: linear-gradient(135deg, #a45b00, #ffb700);
   color: white;
   border: none;
   border-radius: 10px;
@@ -71,20 +74,21 @@
   width: 100%;
   cursor: pointer;
   transition: 0.3s ease;
-  margin-bottom: 0px;
 }
 
 .login-btn:hover {
-  background-color: #c68b22;
-  transform: scale(1.03);
+  background: linear-gradient(135deg, #ffb700, #a45b00);
+  transform: translateY(-2px);
 }
 
+/* Error message */
 .error-text {
   color: red;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
+/* Extra links (signup, etc.) */
 .extra-links {
   margin-top: 1rem;
   display: flex;
@@ -94,10 +98,19 @@
   cursor: pointer;
 }
 
-.extra-links p:hover {
-  text-decoration: underline;
+.extra-links a,
+.extra-links p {
+  color: #ffcc70;
+  text-decoration: none;
 }
 
+.extra-links a:hover,
+.extra-links p:hover {
+  text-decoration: underline;
+  color: #ffd700;
+}
+
+/* Forgot password */
 .forgot-password {
   text-align: right;
   font-size: 0.9rem;
@@ -109,4 +122,12 @@
 
 .forgot-password:hover {
   text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
 }
