@@ -1,6 +1,6 @@
 // src/components/Sidebar.jsx
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Home, Gift, Users, Calendar, BarChart2, Settings } from "lucide-react";
 import "./Sidebar.css";
 

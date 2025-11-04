@@ -1,47 +1,31 @@
 // src/pages/Dashboard.jsx
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Navbar1 from "../components/Navbar1";
 import Sidebar from "../components/Sidebar";
 import "./Dashboard.css";
 
-
-
 export default function Dashboard() {
-  const [filter, setFilter] = useState("All Sevas & Donations");
+  // Removed unused state variables (filter, selectedEvent) and unused navigate import
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const navigate = useNavigate();
-
- 
 
   return (
     <div className="dashboard">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div style={{ flex: 1 }}>
-        <Navbar1 onToggleSidebar={() => setIsSidebarOpen(prev => !prev)} />
+        <Navbar1 onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
 
         <main className="main-content">
-         
           <Outlet />
         </main>
       </div>
 
-      
       <div
         className={`sidebar-backdrop ${isSidebarOpen ? "visible" : ""}`}
         onClick={() => setIsSidebarOpen(false)}
         aria-hidden={!isSidebarOpen}
       />
-
-     
-      {selectedEvent && (
-      
-        <div className="modal-overlay" role="dialog" aria-modal="true">
-         
-        </div>
-      )}
     </div>
   );
 }
