@@ -14,29 +14,28 @@ body{font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;color:#222;bac
      background-size: cover; 
      background-position:center; }
 
-/* navbar handled by Navbar1.css */
+
 .dashboard-body{ display:flex; gap:24px; padding:28px 0; align-items:flex-start; }
 
-/* main content card */
+
 .main-content{ flex:1; min-height:400px; background: rgba(255,255,255,0.06); padding:20px; border-radius:12px; backdrop-filter: blur(6px); color:#181717; box-shadow: 0 8px 28px rgba(199, 21, 21, 0.35) }
 
-/* hero */
+
 .hero{ display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:18px }
 .hero h1{ margin:0; font-size:22px; color:#131111 }
 .hero-sub{ color: #d29822; margin-top:6px }
 .cta .btn{ background:var(--accent); color:#0b0b0b; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow:0 6px 18px rgba(198,139,34,0.2) }
 
-/* cards area */
 .cards-area{ display:grid; grid-template-columns: repeat(4,1fr); gap:18px; margin-bottom:18px; }
 .card{ background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border-radius:12px; padding:18px; color:#141212; transition:transform .25s, box-shadow .25s; cursor:pointer; position:relative; overflow:hidden; min-height:100px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
 .stat-card h4{ margin:0; font-size:14px; opacity:0.9 }
 .stat-card .value{ font-size:20px; font-weight:700; margin-top:8px }
 
-/* mid grid */
+
 .mid-grid{ display:grid; grid-template-columns: 2fr 1fr; gap:18px; margin-top:8px; }
 .chart-card{ padding-bottom:8px }
 
-/* events and announce */
+
 .events-card ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px }
 .events-card li{ background: rgba(255,255,255,0.02); padding:10px; border-radius:8px }
 .announce-card ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px }

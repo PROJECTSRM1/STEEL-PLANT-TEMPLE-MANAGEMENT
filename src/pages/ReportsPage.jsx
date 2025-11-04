@@ -280,26 +280,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Events card grid (non-tabular) */}
-      <div className="events-grid">
-        {filtered.map(r => (
-          <div className="event-card" key={r.id}>
-            <div className="ec-left">
-              <div className="ec-date">{r.date}</div>
-              <div className="ec-cat">{r.category}</div>
-            </div>
-            <div className="ec-main">
-              <div className="ec-title">{r.event}</div>
-              <div className="ec-desc">
-                {r.volunteers} volunteers • {formatCurrency(r.amount)} • Channel: {r.channel}
-              </div>
-            </div>
-            <div className="ec-right">
-              <button className="btn-small">View</button>
-            </div>
-          </div>
-        ))}
-        {filtered.length === 0 && <div className="muted">No events to show.</div>}
-      </div>
+      
 
       {/* Volunteer availability bar */}
       <div className="availability-row">
