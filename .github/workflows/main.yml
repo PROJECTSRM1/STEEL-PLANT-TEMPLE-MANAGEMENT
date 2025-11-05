@@ -1,0 +1,33 @@
+name: Deploy React App to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies (fix conflicts & missing modules)
+        run: |
+          npm install ajv@6.12.6 ajv-keywords@3.5.2 lucide-react react-is i18next@latest --save-dev --legacy-peer-deps
+          npm ci --legacy-peer-deps
+      - name: Build React app
+        run: npm run build
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "STEEL-PLANT-TEMPLE-MANAGEMENT"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: ./build
